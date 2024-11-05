@@ -78,36 +78,79 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mode\CCMode.cs">
+    <Compile Include="Form\Main\Main.DMM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Mode\CCMode.Designer.cs">
+    <Compile Include="Form\Main\Main.SequenceExecutor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence\Loop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence\Loop.Designer.cs">
+      <DependentUpon>Loop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Mode\CCMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Mode\CCMode.Designer.cs">
       <DependentUpon>CCMode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mode\CRMode.cs">
+    <Compile Include="Form\Mode\CRMode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Mode\CRMode.Designer.cs">
+    <Compile Include="Form\Mode\CRMode.Designer.cs">
       <DependentUpon>CRMode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mode\CVMode.cs">
+    <Compile Include="Form\Mode\CVMode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Mode\CVMode.Designer.cs">
+    <Compile Include="Form\Mode\CVMode.Designer.cs">
       <DependentUpon>CVMode.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseManager.cs" />
-    <Compile Include="Main.cs">
+    <Compile Include="Form\Main\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
+    <Compile Include="Form\Main\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sequence\Option_list.cs">
+    <Compile Include="Form\Sequence\Option_list.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sequence\Option_list.Designer.cs">
+    <Compile Include="Form\Sequence\Option_list.Designer.cs">
       <DependentUpon>Option_list.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Main\Main.Log_AI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence2\Loop2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence2\Loop2.Designer.cs">
+      <DependentUpon>Loop2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Sequence2\Option_list2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence2\Option_list2.Designer.cs">
+      <DependentUpon>Option_list2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Sequence2\ProgramForm2.cs" />
+    <Compile Include="Form\Sequence2\ProgramForm2.Designer.cs">
+      <DependentUpon>ProgramForm2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Sequence2\Sequence2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence2\Sequence2.Designer.cs">
+      <DependentUpon>Sequence2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Sequence2\SettingsForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Sequence2\SettingsForm2.Designer.cs">
+      <DependentUpon>SettingsForm2.cs</DependentUpon>
     </Compile>
     <Compile Include="Ps_Eload_Current.cs">
       <SubType>Form</SubType>
@@ -115,43 +158,61 @@
     <Compile Include="Ps_Eload_Current.Designer.cs">
       <DependentUpon>Ps_Eload_Current.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sequence\SettingsForm.cs">
+    <Compile Include="Form\Sequence\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sequence\SettingsForm.Designer.cs">
+    <Compile Include="Form\Sequence\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Sequence\ProgramForm.cs">
+    <Compile Include="Form\Sequence\ProgramForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sequence\ProgramForm.Designer.cs">
+    <Compile Include="Form\Sequence\ProgramForm.Designer.cs">
       <DependentUpon>ProgramForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sequence\Sequence.cs">
+    <Compile Include="Form\Sequence\Sequence.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sequence\Sequence.Designer.cs">
+    <Compile Include="Form\Sequence\Sequence.Designer.cs">
       <DependentUpon>Sequence.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Mode\CCMode.resx">
+    <EmbeddedResource Include="Form\Sequence\Loop.resx">
+      <DependentUpon>Loop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Mode\CCMode.resx">
       <DependentUpon>CCMode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mode\CRMode.resx">
+    <EmbeddedResource Include="Form\Mode\CRMode.resx">
       <DependentUpon>CRMode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mode\CVMode.resx">
+    <EmbeddedResource Include="Form\Mode\CVMode.resx">
       <DependentUpon>CVMode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="Form\Main\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sequence\Option_list.resx">
+    <EmbeddedResource Include="Form\Sequence\Option_list.resx">
       <DependentUpon>Option_list.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sequence\ProgramForm.resx">
+    <EmbeddedResource Include="Form\Sequence\ProgramForm.resx">
       <DependentUpon>ProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Sequence2\Loop2.resx">
+      <DependentUpon>Loop2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Sequence2\Option_list2.resx">
+      <DependentUpon>Option_list2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Sequence2\ProgramForm2.resx">
+      <DependentUpon>ProgramForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Sequence2\Sequence2.resx">
+      <DependentUpon>Sequence2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Sequence2\SettingsForm2.resx">
+      <DependentUpon>SettingsForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -166,10 +227,10 @@
     <EmbeddedResource Include="Ps_Eload_Current.resx">
       <DependentUpon>Ps_Eload_Current.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sequence\Sequence.resx">
+    <EmbeddedResource Include="Form\Sequence\Sequence.resx">
       <DependentUpon>Sequence.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sequence\SettingsForm.resx">
+    <EmbeddedResource Include="Form\Sequence\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

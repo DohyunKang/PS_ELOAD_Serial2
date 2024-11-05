@@ -1,6 +1,6 @@
 ﻿namespace PS_ELOAD_Serial
 {
-    partial class Form1
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -262,6 +262,7 @@
             // 
             this.ParameterButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ParameterButton.Location = new System.Drawing.Point(450, 254);
+            this.ParameterButton.Margin = new System.Windows.Forms.Padding(0);
             this.ParameterButton.Name = "ParameterButton";
             this.ParameterButton.Size = new System.Drawing.Size(99, 39);
             this.ParameterButton.TabIndex = 40;
@@ -485,7 +486,7 @@
             // 
             // waveformGraph2
             // 
-            this.waveformGraph2.Location = new System.Drawing.Point(277, 620);
+            this.waveformGraph2.Location = new System.Drawing.Point(294, 601);
             this.waveformGraph2.Name = "waveformGraph2";
             this.waveformGraph2.Plots.AddRange(new NationalInstruments.UI.WaveformPlot[] {
             this.waveformPlot2});
@@ -499,13 +500,14 @@
             // 
             // waveformPlot2
             // 
+            this.waveformPlot2.LineWidth = 5F;
             this.waveformPlot2.XAxis = this.xAxis2;
             this.waveformPlot2.YAxis = this.yAxis2;
             // 
             // xAxis2
             // 
             this.xAxis2.Caption = "Time";
-            this.xAxis2.Mode = NationalInstruments.UI.AxisMode.StripChart;
+            this.xAxis2.Mode = NationalInstruments.UI.AxisMode.Fixed;
             this.xAxis2.Range = new NationalInstruments.UI.Range(0D, 100D);
             // 
             // yAxis2
@@ -620,7 +622,8 @@
             // PSELOADCURRENT
             // 
             this.PSELOADCURRENT.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.PSELOADCURRENT.Location = new System.Drawing.Point(551, 500);
+            this.PSELOADCURRENT.Location = new System.Drawing.Point(547, 503);
+            this.PSELOADCURRENT.Margin = new System.Windows.Forms.Padding(0);
             this.PSELOADCURRENT.Name = "PSELOADCURRENT";
             this.PSELOADCURRENT.Size = new System.Drawing.Size(141, 50);
             this.PSELOADCURRENT.TabIndex = 41;
@@ -628,11 +631,11 @@
             this.PSELOADCURRENT.UseVisualStyleBackColor = true;
             this.PSELOADCURRENT.Click += new System.EventHandler(this.PSELOADCURRENT_Click);
             // 
-            // Form1
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 1017);
+            this.ClientSize = new System.Drawing.Size(960, 844);
             this.Controls.Add(this.PSELOADCURRENT);
             this.Controls.Add(this.E_LED);
             this.Controls.Add(this.PS_LED);
@@ -641,7 +644,7 @@
             this.Controls.Add(this.PowerSupply);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.ELoad);
-            this.Name = "Form1";
+            this.Name = "Main";
             this.ELoad.ResumeLayout(false);
             this.ELoad.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).EndInit();
