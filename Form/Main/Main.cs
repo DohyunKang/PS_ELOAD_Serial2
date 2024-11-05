@@ -98,7 +98,7 @@ namespace PS_ELOAD_Serial
             lastEloadUpdateTime = currentTime;
             elapsedTime2 = deltaTime.TotalSeconds;*/
 
-            elapsedTime2 = 1;
+            elapsedTime2 = 2;
 
             if (serialPort != null && serialPort.IsOpen)
             {
@@ -157,12 +157,12 @@ namespace PS_ELOAD_Serial
 
         private void PsDataTimer_Tick(object sender, EventArgs e)
         {
-            DateTime currentTime = DateTime.Now;
+            /*DateTime currentTime = DateTime.Now;
             TimeSpan deltaTime = currentTime - lastPsUpdateTime;
             lastPsUpdateTime = currentTime;
-            elapsedTime = deltaTime.TotalSeconds;
+            elapsedTime = deltaTime.TotalSeconds;*/
 
-            //elapsedTime = 1;
+            elapsedTime = 2;
 
             //System.Diagnostics.Debug.WriteLine(string.Format("시작{0}"), DateTime.Now);
             if (psConnected)
@@ -1171,7 +1171,20 @@ namespace PS_ELOAD_Serial
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // PowerSupply 출력 끄기
+            SendCommandToPS("OUTP 0\r");
+            LogCommand("PowerSupply TX", "OUTP 0\r");
 
+            // Load 끄기 명령어 전송 (ELoad의 연결이 되어 있어야 함)
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                serialPort.WriteLine("OUTP OFF");
+                LogCommand("ELoad TX", "OUTP OFF");
+            }
+            else
+            {
+                MessageBox.Show("모든 장비의 전원을 끄기 위해 시리얼을 연결해주세요.");
+            }
         }
 
         private void CurrentButton_Click(object sender, EventArgs e)
@@ -1181,7 +1194,7 @@ namespace PS_ELOAD_Serial
                 try
                 {
                     // 출력을 켜고 끌지 결정하기 위한 플래그 변수
-                    bool isCurrentOn = (CurrentButton.Text.Trim() == "On");
+                    bool isCurrentOn = (CurrentButton.Text.Trim() == "Off");
 
                     if (isCurrentOn) // 현재 버튼이 눌린 상태
                     {

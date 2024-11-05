@@ -136,7 +136,9 @@
     <Compile Include="Form\Sequence2\Option_list2.Designer.cs">
       <DependentUpon>Option_list2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form\Sequence2\ProgramForm2.cs" />
+    <Compile Include="Form\Sequence2\ProgramForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\Sequence2\ProgramForm2.Designer.cs">
       <DependentUpon>ProgramForm2.cs</DependentUpon>
     </Compile>
