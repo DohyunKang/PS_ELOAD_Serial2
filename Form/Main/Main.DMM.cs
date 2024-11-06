@@ -83,14 +83,17 @@ namespace PS_ELOAD_Serial
             lastDMMUpdateTime = currentTime;
             elapsedTime3 = deltaTime.TotalSeconds;*/
 
-            elapsedTime3 = 2;
+            elapsedTime3 = 0.5;
 
             if (dmmPort != null && dmmPort.IsOpen)
             {
                 try
                 {
-                    dmmPort.WriteLine("MEAS:VOLT:DC?"); // DMM에 전압 측정 명령어 전송
-                    LogCommand("DMM TX", "MEAS:VOLT:DC?"); // TX 로그 추가
+                    //dmmPort.WriteLine("MEAS:VOLT:DC?"); // DMM에 전압 측정 명령어 전송
+                    //LogCommand("DMM TX", "MEAS:VOLT:DC?"); // TX 로그 추가
+
+                    dmmPort.WriteLine("VAL1?"); // DMM에 전압 측정 명령어 전송
+                    LogCommand("DMM TX", "VAL1?"); // TX 로그 추가
 
                     voltageStr = dmmPort.ReadLine();
                     LogCommand("DMM RX", voltageStr); // RX 로그 추가
@@ -99,11 +102,14 @@ namespace PS_ELOAD_Serial
                     {
                         // 전류 계산
                         dmmCurrent = ((5 / supplyVoltage) * dmmVoltage - offsetVoltage) * (-1 / sensitivity);
+                        // DMM 전류 그래프 및 라벨 업데이트
+                        lblCurrent_DMM.Text = dmmCurrent.ToString("F2") + " A";
+                        waveformPlot_A4.PlotYAppend(dmmCurrent, elapsedTime3); // 그래프에 데이터 추가
                     }
 
                     // DMM 전류 그래프 및 라벨 업데이트
-                    lblCurrent_DMM.Text = dmmCurrent.ToString("F2") + " A";
-                    waveformPlot_A4.PlotYAppend(dmmCurrent, elapsedTime3); // 그래프에 데이터 추가
+                    //lblCurrent_DMM.Text = dmmCurrent.ToString("F2") + " A";
+                   // waveformPlot_A4.PlotYAppend(dmmCurrent, elapsedTime3); // 그래프에 데이터 추가
                 }
                 catch (Exception ex)
                 {

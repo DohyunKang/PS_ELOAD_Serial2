@@ -40,12 +40,12 @@ namespace PS_ELOAD_Serial
 
             // 타이머 초기화
             eLoadDataTimer = new System.Windows.Forms.Timer();
-            eLoadDataTimer.Interval = 2000;
-            eLoadDataTimer.Tick += new EventHandler(EloadDataTimer_Tick); // 타이머 이벤트 핸들러 등록
+            eLoadDataTimer.Interval = 500;
+            eLoadDataTimer.Tick += new EventHandler(EloadDataTimer_Tick);
 
             psDataTimer = new System.Windows.Forms.Timer();
-            psDataTimer.Interval = 2000; // 1000ms 간격으로 타이머 이벤트 발생
-            psDataTimer.Tick += new EventHandler(PsDataTimer_Tick); // 타이머 이벤트 핸들러 등록
+            psDataTimer.Interval = 500;
+            psDataTimer.Tick += new EventHandler(PsDataTimer_Tick);
 
             // 그래프 초기화 설정
             //InitializeGraph();

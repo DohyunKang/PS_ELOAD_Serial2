@@ -108,6 +108,7 @@
             this.label16 = new System.Windows.Forms.Label();
             this.comboBox_DMM = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.ELoad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.E_LED)).BeginInit();
@@ -164,7 +165,6 @@
             this.SequenceRun2.TabIndex = 47;
             this.SequenceRun2.Text = "Sequence 2 Run/Stop";
             this.SequenceRun2.UseVisualStyleBackColor = true;
-            //this.SequenceRun2.Click += new System.EventHandler(this.SequenceRun2_Click);
             // 
             // SequenceRun
             // 
@@ -186,7 +186,6 @@
             this.ModeButton2.TabIndex = 47;
             this.ModeButton2.Text = "Sequence Mode 2";
             this.ModeButton2.UseVisualStyleBackColor = true;
-            //this.ModeButton2.Click += new System.EventHandler(this.ModeButton2_Click);
             // 
             // periodNumeric
             // 
@@ -257,7 +256,6 @@
             this.switch1.Size = new System.Drawing.Size(120, 85);
             this.switch1.SwitchStyle = NationalInstruments.UI.SwitchStyle.HorizontalSlide3D;
             this.switch1.TabIndex = 38;
-            //this.switch1.StateChanged += new NationalInstruments.UI.ActionEventHandler(this.switch1_StateChanged_1);
             // 
             // label8
             // 
@@ -529,7 +527,6 @@
             this.OutPutButton.TabIndex = 32;
             this.OutPutButton.Text = "OutPut";
             this.OutPutButton.UseVisualStyleBackColor = true;
-            //this.OutPutButton.Click += new System.EventHandler(this.OutPutButton_Click_1);
             // 
             // ApplyButton
             // 
@@ -922,11 +919,22 @@
             this.label18.Text = "Connect ( ON / OFF )";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label10.Location = new System.Drawing.Point(1173, 236);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(101, 24);
+            this.label10.TabIndex = 48;
+            this.label10.Text = "Log List";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.DMM);
             this.Controls.Add(this.legend2);
             this.Controls.Add(this.legend1);
@@ -966,6 +974,7 @@
             this.DMM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.switchDMM)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1051,6 +1060,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button SequenceRun2;
         private System.Windows.Forms.Button ModeButton2;
+        private System.Windows.Forms.Label label10;
     }
 }
 

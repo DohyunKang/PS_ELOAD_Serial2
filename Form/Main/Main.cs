@@ -51,7 +51,7 @@ namespace PS_ELOAD_Serial
 
             // DMM 타이머 초기화
             dmmReadTimer = new Timer();
-            dmmReadTimer.Interval = 2000; // 2초마다 호출
+            dmmReadTimer.Interval = 500; // 2초마다 호출
             dmmReadTimer.Tick += new EventHandler(DmmReadTimer_Tick); // 타이머 이벤트 핸들러 등록
 
             // DMM 스위치 상태 변경 이벤트
@@ -98,7 +98,7 @@ namespace PS_ELOAD_Serial
             lastEloadUpdateTime = currentTime;
             elapsedTime2 = deltaTime.TotalSeconds;*/
 
-            elapsedTime2 = 2;
+            elapsedTime2 = 0.5;
 
             if (serialPort != null && serialPort.IsOpen)
             {
@@ -162,7 +162,7 @@ namespace PS_ELOAD_Serial
             lastPsUpdateTime = currentTime;
             elapsedTime = deltaTime.TotalSeconds;*/
 
-            elapsedTime = 2;
+            elapsedTime = 0.5;
 
             //System.Diagnostics.Debug.WriteLine(string.Format("시작{0}"), DateTime.Now);
             if (psConnected)
@@ -1218,58 +1218,6 @@ namespace PS_ELOAD_Serial
                 {
                     MessageBox.Show("데이터 수신 실패: " + ex.Message, "오류");
                 }
-            }
-        }
-
-
-        private void OutPutButton_Click_1(object sender, EventArgs e)
-        {
-            lock (_commandLock)
-            {
-                if (psConnected && switch2.Value)
-                {
-                    // 현재 Power Supply의 출력 상태 확인
-                    string response = SendCommandAndReadResponse("OUTP?");
-
-                    // 출력을 켜고 끌지 결정하기 위한 플래그 변수
-                    bool isOutputOn = (response.Trim() == "1");
-
-                    if (isOutputOn) // 현재 출력이 켜져 있다면
-                    {
-                        // 출력 끄기 명령 전송
-                        SendCommandToPS("OUTP 0\r");
-                        PS_LED.Value = false;
-                        //psDataTimer.Stop(); // 타이머 중지
-                        //isGraphUpdating2 = false;
-                    }
-                    else // 현재 출력이 꺼져 있다면
-                    {
-                        // 출력 켜기 명령 전송
-                        SendCommandToPS("OUTP 1\r");
-                        PS_LED.Value = true;
-                        //psDataTimer.Start(); // 타이머 시작
-                        //isGraphUpdating2 = true;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
-                }
-            }
-        }
-
-        private void switch1_StateChanged_1(object sender, ActionEventArgs e)
-        {
-            if (switch1.Value)
-            {
-                // 스위치가 켜질 때 연결 시도
-                ConnectToSelectedPort();
-            }
-            else
-            {
-                // 스위치가 꺼질 때 연결 해제
-                eLoadDataTimer.Stop(); // 타이머 중지
-                DisconnectPort();
             }
         }
     }
