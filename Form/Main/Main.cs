@@ -418,7 +418,7 @@ namespace PS_ELOAD_Serial
         }
 
         private void ApplyButton3_Click(object sender, EventArgs e)
-        {
+        {/*
             // Switch1이 ON 상태인지 확인
             if (switch1.Value)
             {
@@ -443,7 +443,7 @@ namespace PS_ELOAD_Serial
             {
                 // Switch1이 ON 상태가 아니면 경고 메시지 표시
                 MessageBox.Show("ELoad가 연결되지 않았거나 Switch1이 OFF 상태입니다.", "설정 오류");
-            }
+            }*/
         }
 
         /*private void InitializeGraph()
@@ -798,11 +798,26 @@ namespace PS_ELOAD_Serial
                                 string uvpValue = ccModeForm.UVPValue;
                                 string SLEWrateValue = ccModeForm.SLEWrateValue; // 유도성 값
 
-                                // 시리얼 포트를 통해 설정 값 전송
-                                SendCommandToELoad("CURR " + currentValue);        // 전류 값 전송
-                                SendCommandToELoad("CURRent:SLEWrate " + SLEWrateValue); //SLEW 율 전송
-                                SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
-                                SendCommandToELoad("POW:PROT " + opplValue);       // OPPL 값 전송
+                                // 시리얼 포트를 통해 설정 값 전송 (널 값이 아닐 경우에만 전송)
+                                if (!string.IsNullOrEmpty(currentValue))
+                                {
+                                    SendCommandToELoad("CURR " + currentValue); // 전류 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(SLEWrateValue))
+                                {
+                                    SendCommandToELoad("CURRent:SLEWrate " + SLEWrateValue); // SLEW 율 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(uvpValue))
+                                {
+                                    SendCommandToELoad("VOLT:PROT:LOW " + uvpValue); // UVP 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(opplValue))
+                                {
+                                    SendCommandToELoad("POW:PROT " + opplValue); // OPPL 값 전송
+                                }
 
                                 // +CV 모드가 활성화된 경우 전압 값도 전송
                                 if (!string.IsNullOrEmpty(ccModeForm.VoltageValue))
@@ -838,11 +853,26 @@ namespace PS_ELOAD_Serial
                                 string ocplValue = cvModeForm.OCPLValue;
                                 string opplValue = cvModeForm.OPPLValue;
 
-                                // 시리얼 포트를 통해 설정 값 전송
-                                SendCommandToELoad("VOLT " + voltageValue);        // 전압 값 전송
-                                SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
-                                SendCommandToELoad("CURR:PROT " + ocplValue);     // OCPL 값 전송
-                                SendCommandToELoad("POW:PROT " + opplValue);      // OPPL 값 전송
+                                // 시리얼 포트를 통해 설정 값 전송 (널 값이 아닐 경우에만 전송)
+                                if (!string.IsNullOrEmpty(voltageValue))
+                                {
+                                    SendCommandToELoad("VOLT " + voltageValue); // 전압 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(uvpValue))
+                                {
+                                    SendCommandToELoad("VOLT:PROT:LOW " + uvpValue); // UVP 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(ocplValue))
+                                {
+                                    SendCommandToELoad("CURR:PROT " + ocplValue); // OCPL 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(opplValue))
+                                {
+                                    SendCommandToELoad("POW:PROT " + opplValue); // OPPL 값 전송
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -875,11 +905,26 @@ namespace PS_ELOAD_Serial
                                 string ocplValue = crModeForm.OCPLValue;
                                 string opplValue = crModeForm.OPPLValue;
 
-                                // 시리얼 포트를 통해 설정 값 전송
-                                SendCommandToELoad("COND " + impedanceValue);      // 임피던스 값 전송
-                                SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
-                                SendCommandToELoad("CURR:PROT " + ocplValue);     // OCPL 값 전송
-                                SendCommandToELoad("POW:PROT " + opplValue);      // OPPL 값 전송
+                                // 시리얼 포트를 통해 설정 값 전송 (널 값이 아닐 경우에만 전송)
+                                if (!string.IsNullOrEmpty(impedanceValue))
+                                {
+                                    SendCommandToELoad("COND " + impedanceValue); // 임피던스 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(uvpValue))
+                                {
+                                    SendCommandToELoad("VOLT:PROT:LOW " + uvpValue); // UVP 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(ocplValue))
+                                {
+                                    SendCommandToELoad("CURR:PROT " + ocplValue); // OCPL 값 전송
+                                }
+
+                                if (!string.IsNullOrEmpty(opplValue))
+                                {
+                                    SendCommandToELoad("POW:PROT " + opplValue); // OPPL 값 전송
+                                }
 
                                 // +CV 모드가 활성화된 경우 전압 값도 전송
                                 if (!string.IsNullOrEmpty(crModeForm.VoltageValue))
@@ -987,11 +1032,11 @@ namespace PS_ELOAD_Serial
                 {
                     // 명령어 전송
                     writer.WriteLine(command);
-                    LogCommand("PoswerSupply TX", command); // TX 로그 추가
+                    LogCommand("PowerSupply TX", command); // TX 로그 추가
 
                     // 응답 읽기
                     string response = reader.ReadLine();
-                    LogCommand("PoswerSupply RX", response); // RX 로그 추가
+                    LogCommand("PowerSupply RX", response); // RX 로그 추가
                     return response.Trim() ?? string.Empty; // Trim() 호출 전 null 체크
                 }
                 else
@@ -1218,6 +1263,36 @@ namespace PS_ELOAD_Serial
                 {
                     MessageBox.Show("데이터 수신 실패: " + ex.Message, "오류");
                 }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                waveformGraph1.Plots[0].ClearData(); // waveformGraph1의 첫 번째 플롯 초기화
+                waveformGraph1.Plots[1].ClearData(); // waveformGraph1의 두 번째 플롯 초기화 
+                MessageBox.Show("waveformGraph1 플롯이 초기화되었습니다.", "초기화 완료");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("waveformGraph1 초기화 중 오류가 발생했습니다: " + ex.Message, "오류");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                waveformGraph2.Plots[0].ClearData(); // waveformGraph2의 첫 번째 플롯 초기화
+                waveformGraph2.Plots[1].ClearData(); // waveformGraph2의 두 번째 플롯 초기화
+                waveformGraph2.Plots[2].ClearData(); // waveformGraph2의 세 번째 플롯 초기화
+                waveformGraph2.Plots[3].ClearData(); // waveformGraph2의 네 번째 플롯 초기화 
+                MessageBox.Show("waveformGraph2 플롯이 초기화되었습니다.", "초기화 완료");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("waveformGraph2 초기화 중 오류가 발생했습니다: " + ex.Message, "오류");
             }
         }
     }
