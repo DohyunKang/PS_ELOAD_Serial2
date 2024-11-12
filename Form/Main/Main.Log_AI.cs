@@ -76,14 +76,14 @@ namespace PS_ELOAD_Serial
             aiTask = new NationalInstruments.DAQmx.Task();
             aiTask.AIChannels.CreateVoltageChannel("Dev2/ai0", "", AITerminalConfiguration.Rse, 0.0, 10.0, AIVoltageUnits.Volts);
             aiReader = new AnalogSingleChannelReader(aiTask.Stream);
-            aiTask.Timing.ConfigureSampleClock("", 1000, SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 10);
+            aiTask.Timing.ConfigureSampleClock("", 2000, SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 1000);
         }
 
         private void ReadMultiSampleData()
         {
             try
             {
-                double[] voltages = aiReader.ReadMultiSample(10);
+                double[] voltages = aiReader.ReadMultiSample(1000);
                 double voltageAvg = voltages.Average();
                 AiCurrentAvg = ((5 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1 / sensitivity);
             }

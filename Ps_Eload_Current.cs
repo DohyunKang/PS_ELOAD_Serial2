@@ -30,7 +30,7 @@ namespace PS_ELOAD_Serial
 
             // 타이머 초기화
             updateTimer = new Timer();
-            updateTimer.Interval = 100; // 0.1초마다 데이터 업데이트
+            updateTimer.Interval = 500; // 0.1초마다 데이터 업데이트
             updateTimer.Tick += (s, ev) => UpdateDAQData();
 
             // 버튼 클릭 이벤트 핸들러 연결
@@ -52,8 +52,8 @@ namespace PS_ELOAD_Serial
                 // 데이터를 읽기 위한 AnalogSingleChannelReader 초기화
                 reader = new AnalogSingleChannelReader(voltageTask.Stream);
 
-                // 멀티샘플을 위해 샘플 클럭 설정 (예: 1000Hz로 샘플링, 샘플 수 10)
-                voltageTask.Timing.ConfigureSampleClock("", 1000, SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 10);
+                // 멀티샘플을 위해 샘플 클럭 설정 (2000Hz로 샘플링, 샘플 수 1000)
+                voltageTask.Timing.ConfigureSampleClock("", 2000, SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 1000);
             }
             catch (DaqException ex)
             {
@@ -72,7 +72,7 @@ namespace PS_ELOAD_Serial
                 double singleSampleVoltage = reader.ReadSingleSample();
 
                 // 멀티 샘플 읽어오기
-                double[] outputVoltages = reader.ReadMultiSample(10);
+                double[] outputVoltages = reader.ReadMultiSample(1000);
 
                 // 전압값 계산
                 double voltageMax = outputVoltages.Max();
@@ -119,18 +119,18 @@ namespace PS_ELOAD_Serial
         {
             // Y축은 전류 (A), X축은 시간 (초)
             waveformGraph1.YAxes[0].Caption = "Current (A)";
-            waveformGraph1.XAxes[0].Caption = "Time (0.1s)";
+            waveformGraph1.XAxes[0].Caption = "Time (s)";
         }
 
         // 그래프에 실시간 데이터 추가 메서드
         private void PlotGraph(double time, double current, double currentMax, double currentMin, double currentAvg)
         {
             // X축(시간)과 Y축(전류)을 전달하여 그래프에 점을 추가
-            waveformGraph1.PlotYAppend(current);
+            waveformGraph1.PlotYAppend(current,0.5);
             // 각 그래프에 Max, Min, Avg 전류 값을 추가
-            waveformPlot_Max.PlotYAppend(currentMax);
-            waveformPlot_Min.PlotYAppend(currentMin);
-            waveformPlot_Avg.PlotYAppend(currentAvg);
+            waveformPlot_Max.PlotYAppend(currentMax,0.5);
+            waveformPlot_Min.PlotYAppend(currentMin,0.5);
+            waveformPlot_Avg.PlotYAppend(currentAvg,0.5);
         }
 
         // ReadButton 클릭 시 타이머 시작
@@ -141,7 +141,6 @@ namespace PS_ELOAD_Serial
                 elapsedTime = 0;  // 시간 초기화
                 waveformGraph1.ClearData();  // 이전 그래프 데이터 초기화
                 updateTimer.Start();
-                MessageBox.Show("데이터 수집 시작");
             }
             else
             {
@@ -155,7 +154,6 @@ namespace PS_ELOAD_Serial
             if (updateTimer.Enabled)  // 타이머가 동작 중인지 확인
             {
                 updateTimer.Stop();
-                MessageBox.Show("데이터 수집 중지");
             }
             else
             {

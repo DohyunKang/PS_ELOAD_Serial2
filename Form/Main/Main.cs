@@ -131,7 +131,7 @@ namespace PS_ELOAD_Serial
             else
             {
                 eLoadDataTimer.Stop();
-                MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
+                //MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
             }
 
             if (psConnected)
@@ -215,9 +215,9 @@ namespace PS_ELOAD_Serial
             else
             {
                 eLoadDataTimer.Stop();
-                MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
+                //MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
             }
-
+            
             // psEloadCurrentForm의 CurrentAverage 값을 lblCurrent_AI_Avg와 그래프에 표시
             ReadMultiSampleData();
             lblCurrent_AI_Avg.Text = AiCurrentAvg.ToString("F2") + " A";
@@ -325,7 +325,7 @@ namespace PS_ELOAD_Serial
             // Sequence 창을 SerialPort와 함께 열기
             Sequence sequenceWindow = new Sequence(serialPort);
             sequenceWindow.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
-            MessageBox.Show("Sequence 창이 열렸습니다.");
+            //MessageBox.Show("Sequence 창이 열렸습니다.");
         }
 
         // ELoad 스위치 상태가 변경될 때의 이벤트 처리 메서드
@@ -353,7 +353,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                DisconnectPowerSupply();  // 연결 해제
+                //DisconnectPowerSupply();  // 연결 해제
             }
         }
 
@@ -375,7 +375,7 @@ namespace PS_ELOAD_Serial
                 }
                 else
                 {
-                    MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
+                    //MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
                 }
             }
         }
@@ -407,12 +407,12 @@ namespace PS_ELOAD_Serial
                     }
                     else
                     {
-                        MessageBox.Show("OVP와 OCP 설정 범위를 넘어섰습니다.", "설정 오류");
+                        //MessageBox.Show("OVP와 OCP 설정 범위를 넘어섰습니다.", "설정 오류");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
+                    //MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
                 }
             }
         }
@@ -540,7 +540,7 @@ namespace PS_ELOAD_Serial
             else
             {
                 // Switch1이 OFF 상태일 때 경고 메시지 표시
-                MessageBox.Show("ELoad가 연결되지 않았습니다. Switch1을 켜세요.", "Load 제어 오류");
+                //MessageBox.Show("ELoad가 연결되지 않았습니다. Switch1을 켜세요.", "Load 제어 오류");
             }
         }
 
@@ -576,7 +576,7 @@ namespace PS_ELOAD_Serial
                 }
                 else
                 {
-                    MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
+                    //MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
                 }
             }
         }
@@ -733,11 +733,11 @@ namespace PS_ELOAD_Serial
             }
             else if (isConnected)
             {
-                MessageBox.Show("이미 ELoad에 연결된 상태입니다.", "연결 상태");
+                //MessageBox.Show("이미 ELoad에 연결된 상태입니다.", "연결 상태");
             }
             else
             {
-                MessageBox.Show("COM 포트를 선택하세요.", "연결 상태");
+               // MessageBox.Show("COM 포트를 선택하세요.", "연결 상태");
             }
         }
 
@@ -758,7 +758,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("ELoad가 연결되지 않았습니다.", "연결 상태");
+                //MessageBox.Show("ELoad가 연결되지 않았습니다.", "연결 상태");
             }
         }
 
@@ -942,7 +942,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("ELoad가 연결되지 않았습니다.", "모드 설정 오류");
+                //MessageBox.Show("ELoad가 연결되지 않았습니다.", "모드 설정 오류");
             }
         }
 
@@ -956,7 +956,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
+                //MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
             }
         }
 
@@ -977,7 +977,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("PowerSupply가 연결되지 않았습니다.", "연결 상태");
+                //MessageBox.Show("PowerSupply가 연결되지 않았습니다.", "연결 상태");
             }
         }
 
@@ -1003,7 +1003,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("이미 PowerSupply에 연결된 상태입니다.", "연결 상태");
+                //MessageBox.Show("이미 PowerSupply에 연결된 상태입니다.", "연결 상태");
             }
         }
 
@@ -1083,7 +1083,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("PowerSupply가 연결되지 않았습니다.", "측정 오류");
+                //MessageBox.Show("PowerSupply가 연결되지 않았습니다.", "측정 오류");
             }
         }
 
@@ -1116,7 +1116,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
+                //MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
             }
         }
 
@@ -1129,7 +1129,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
+                //MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
             }
         }
 
@@ -1149,7 +1149,7 @@ namespace PS_ELOAD_Serial
                 }
                 else
                 {
-                    MessageBox.Show("시리얼 포트가 연결되지 않았습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("시리얼 포트가 연결되지 않았습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -1184,12 +1184,12 @@ namespace PS_ELOAD_Serial
                         // 상태 업데이트
                         isSequenceRunning = false;
                         SequenceRun.Text = "Start Sequence";  // 버튼 텍스트 변경
-                        MessageBox.Show("Sequence 모드가 중지되었습니다.", "Sequence 중지");
+                        //MessageBox.Show("Sequence 모드가 중지되었습니다.", "Sequence 중지");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("시리얼 포트가 열려 있지 않습니다.", "포트 오류");
+                    //MessageBox.Show("시리얼 포트가 열려 있지 않습니다.", "포트 오류");
                 }
             }
             catch (Exception ex)
@@ -1228,7 +1228,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("모든 장비의 전원을 끄기 위해 시리얼을 연결해주세요.");
+                //MessageBox.Show("모든 장비의 전원을 끄기 위해 시리얼을 연결해주세요.");
             }
         }
 
@@ -1272,7 +1272,6 @@ namespace PS_ELOAD_Serial
             {
                 waveformGraph1.Plots[0].ClearData(); // waveformGraph1의 첫 번째 플롯 초기화
                 waveformGraph1.Plots[1].ClearData(); // waveformGraph1의 두 번째 플롯 초기화 
-                MessageBox.Show("waveformGraph1 플롯이 초기화되었습니다.", "초기화 완료");
             }
             catch (Exception ex)
             {
@@ -1287,8 +1286,7 @@ namespace PS_ELOAD_Serial
                 waveformGraph2.Plots[0].ClearData(); // waveformGraph2의 첫 번째 플롯 초기화
                 waveformGraph2.Plots[1].ClearData(); // waveformGraph2의 두 번째 플롯 초기화
                 waveformGraph2.Plots[2].ClearData(); // waveformGraph2의 세 번째 플롯 초기화
-                waveformGraph2.Plots[3].ClearData(); // waveformGraph2의 네 번째 플롯 초기화 
-                MessageBox.Show("waveformGraph2 플롯이 초기화되었습니다.", "초기화 완료");
+                waveformGraph2.Plots[3].ClearData(); // waveformGraph2의 네 번째 플롯 초기화    
             }
             catch (Exception ex)
             {

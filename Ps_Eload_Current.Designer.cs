@@ -303,7 +303,6 @@
             // 
             this.xAxis2.Caption = "Time";
             this.xAxis2.Mode = NationalInstruments.UI.AxisMode.StripChart;
-            this.xAxis2.Range = new NationalInstruments.UI.Range(0D, 100D);
             // 
             // yAxis2
             // 
