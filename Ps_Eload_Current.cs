@@ -30,7 +30,7 @@ namespace PS_ELOAD_Serial
 
             // 타이머 초기화
             updateTimer = new Timer();
-            updateTimer.Interval = 500; // 0.1초마다 데이터 업데이트
+            updateTimer.Interval = 500; // 0.5초마다 데이터 업데이트
             updateTimer.Tick += (s, ev) => UpdateDAQData();
 
             // 버튼 클릭 이벤트 핸들러 연결
@@ -80,14 +80,14 @@ namespace PS_ELOAD_Serial
                 double voltageAvg = outputVoltages.Average();
 
                 // 전류값 계산
-                double currentMax = ((5 / supplyVoltage) * voltageMin - offsetVoltage) * (-1 / sensitivity);
-                double currentMin = ((5 / supplyVoltage) * voltageMax - offsetVoltage) * (-1 / sensitivity);
-                double currentAvg = ((5 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1 / sensitivity);
+                double currentMax = ((5.0 / supplyVoltage) * voltageMin - offsetVoltage) * (-1.0 / sensitivity);
+                double currentMin = ((5.0 / supplyVoltage) * voltageMax - offsetVoltage) * (-1.0 / sensitivity);
+                double currentAvg = ((5.0 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1.0 / sensitivity);
 
                 // singleSampleVoltage로 단일 샘플 전류 계산
-                double singleSampleCurrent = ((5 / supplyVoltage) * singleSampleVoltage - offsetVoltage) * (-1 / sensitivity);
+                double singleSampleCurrent = ((5.0 / supplyVoltage) * singleSampleVoltage - offsetVoltage) * (-1.0 / sensitivity);
 
-                CurrentAverage = ((5 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1 / sensitivity);
+                CurrentAverage = ((5.0 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1.0 / sensitivity);
 
                 // UI에 전압 및 전류값 표시
                 lblVoltage_DAQ.Text = voltageAvg.ToString("F2") + " V";

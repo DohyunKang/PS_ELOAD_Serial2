@@ -47,9 +47,6 @@ namespace PS_ELOAD_Serial
             psDataTimer.Interval = 500;
             psDataTimer.Tick += new EventHandler(PsDataTimer_Tick);
 
-            // 그래프 초기화 설정
-            //InitializeGraph();
-
             // Delegate를 해당 메서드에 연결
             OpenSequenceDelegate = OpenSequenceWindow;
             OpenSequenceDelegate2 = OpenSequenceWindow2;
@@ -65,7 +62,7 @@ namespace PS_ELOAD_Serial
             // 로그 메시지 생성
             string logMessage = string.Format("{0} [{1}] {2}", timestamp, direction, command);
   
-            // 로그 메시지를 Log_List에 추가  
+            // 로그 메시지를 Log_List에 추가 
             Log_List.Items.Add(logMessage);
     
             // 가장 최근 로그가 보이도록 스크롤 이동   
@@ -77,16 +74,16 @@ namespace PS_ELOAD_Serial
             aiTask = new NationalInstruments.DAQmx.Task();
             aiTask.AIChannels.CreateVoltageChannel("Dev2/ai0", "", AITerminalConfiguration.Rse, 0.0, 10.0, AIVoltageUnits.Volts);
             aiReader = new AnalogSingleChannelReader(aiTask.Stream);
-            aiTask.Timing.ConfigureSampleClock("", 2000, SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 1000);
+            aiTask.Timing.ConfigureSampleClock("", 2000, SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 200);
         }
 
         private void ReadMultiSampleData()
         {
             try
             {
-                double[] voltages = aiReader.ReadMultiSample(1000);
+                double[] voltages = aiReader.ReadMultiSample(200);
                 double voltageAvg = voltages.Average();
-                AiCurrentAvg = ((5 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1 / sensitivity);
+                AiCurrentAvg = ((5.0 / supplyVoltage) * voltageAvg - offsetVoltage) * (-1.0 / sensitivity);
             }
             catch (DaqException ex)
             {

@@ -282,11 +282,11 @@ namespace PS_ELOAD_Serial
                 int selectedProgramID = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["ProgramID2"].Value);
                 //serialPort.WriteLine(string.Format("PROG \"/{0}\"", selectedProgramName));
 
-                using (Loop loopForm = new Loop(serialPort))
+                using (Loop2 loopForm2 = new Loop2(serialPort))
                 {
-                    if (loopForm.ShowDialog() == DialogResult.OK)
+                    if (loopForm2.ShowDialog() == DialogResult.OK)
                     {
-                        string loopValue = loopForm.LoopValue; // 사용자 입력값 가져오기
+                        string loopValue = loopForm2.LoopValue2; // 사용자 입력값 가져오기
 
                     }
                 }

@@ -108,6 +108,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.SequenceRun2 = new System.Windows.Forms.Button();
             this.ModeButton2 = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBoxLoop2 = new System.Windows.Forms.TextBox();
             this.ELoad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.E_LED)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
@@ -898,7 +900,7 @@
             // SequenceRun2
             // 
             this.SequenceRun2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.SequenceRun2.Location = new System.Drawing.Point(638, 431);
+            this.SequenceRun2.Location = new System.Drawing.Point(757, 431);
             this.SequenceRun2.Name = "SequenceRun2";
             this.SequenceRun2.Size = new System.Drawing.Size(99, 39);
             this.SequenceRun2.TabIndex = 48;
@@ -909,7 +911,7 @@
             // ModeButton2
             // 
             this.ModeButton2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ModeButton2.Location = new System.Drawing.Point(531, 431);
+            this.ModeButton2.Location = new System.Drawing.Point(638, 431);
             this.ModeButton2.Name = "ModeButton2";
             this.ModeButton2.Size = new System.Drawing.Size(99, 39);
             this.ModeButton2.TabIndex = 47;
@@ -917,11 +919,31 @@
             this.ModeButton2.UseVisualStyleBackColor = true;
             this.ModeButton2.Click += new System.EventHandler(this.ModeButton2_Click);
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label21.Location = new System.Drawing.Point(444, 443);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(51, 15);
+            this.label21.TabIndex = 51;
+            this.label21.Text = "Loop:";
+            // 
+            // textBoxLoop2
+            // 
+            this.textBoxLoop2.Location = new System.Drawing.Point(498, 440);
+            this.textBoxLoop2.Name = "textBoxLoop2";
+            this.textBoxLoop2.Size = new System.Drawing.Size(116, 21);
+            this.textBoxLoop2.TabIndex = 50;
+            this.textBoxLoop2.TextChanged += new System.EventHandler(this.textBoxLoop2_TextChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.textBoxLoop2);
             this.Controls.Add(this.SequenceRun2);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.ModeButton2);
@@ -1049,6 +1071,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button SequenceRun2;
         private System.Windows.Forms.Button ModeButton2;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox textBoxLoop2;
     }
 }
 

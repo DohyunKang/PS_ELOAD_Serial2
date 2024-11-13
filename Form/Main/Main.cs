@@ -60,44 +60,11 @@ namespace PS_ELOAD_Serial
 
             // DMM 타이머 초기화
             dmmReadTimer = new Timer();
-            dmmReadTimer.Interval = 500; // 2초마다 호출
+            dmmReadTimer.Interval = 500; // 0.5초마다 호출
             dmmReadTimer.Tick += new EventHandler(DmmReadTimer_Tick); // 타이머 이벤트 핸들러 등록
 
             // DMM 스위치 상태 변경 이벤트
             switchDMM.StateChanged += switchDMM_StateChanged;
-
-            // DMM 스위치 상태 변경 이벤트
-            //switchDMM.StateChanged += switchDMM_StateChanged;
-
-            /*GetSerialPortList(); // 시작 시 COM 포트 목록을 가져오기 위한 메서드 호출
-            switch1.StateChanged += Switch1_StateChanged; // ELoad 스위치 이벤트 핸들러 추가
-            switch2.StateChanged += Switch2_StateChanged; // PowerSupply 스위치 이벤트 핸들러 추가
-
-            this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
-            this.ApplyButton2.Click += new System.EventHandler(this.ApplyButton2_Click);
-            this.OutPutButton.Click += new System.EventHandler(this.OutPutButton_Click);
-
-            // ELoad 모드 전환 이벤트 핸들러 추가
-            CCButton.CheckedChanged += ELoadRadioButton_CheckedChanged;
-            CVButton.CheckedChanged += ELoadRadioButton_CheckedChanged;
-            CRButton.CheckedChanged += ELoadRadioButton_CheckedChanged;
-
-            // 타이머 초기화
-            eLoadDataTimer = new System.Windows.Forms.Timer();
-            eLoadDataTimer.Interval = 500;
-            eLoadDataTimer.Tick += new EventHandler(EloadDataTimer_Tick); // 타이머 이벤트 핸들러 등록
-
-            psDataTimer = new System.Windows.Forms.Timer();
-            psDataTimer.Interval = 100; // 100ms 간격으로 타이머 이벤트 발생
-            psDataTimer.Tick += new EventHandler(PsDataTimer_Tick); // 타이머 이벤트 핸들러 등록
-
-            // 그래프 초기화 설정
-            InitializeGraph();
-
-            // Delegate를 해당 메서드에 연결
-            OpenSequenceDelegate = OpenSequenceWindow;
-
-            ModeButton.Click += ModeButton_Click; // ModeButton의 Click 이벤트 핸들러 설정*/
         }
 
         private void EloadDataTimer_Tick(object sender, EventArgs e)
@@ -234,51 +201,6 @@ namespace PS_ELOAD_Serial
 
             //System.Diagnostics.Debug.WriteLine(string.Format("끝{0}"), DateTime.Now);
         }
-        /*
-        private void EloadDataTimer_Tick(object sender, EventArgs e)
-        {
-            DateTime currentTime = DateTime.Now;
-            TimeSpan deltaTime = currentTime - lastEloadUpdateTime;
-            lastEloadUpdateTime = currentTime;
-            elapsedTime2 += deltaTime.TotalSeconds;
-
-            if (serialPort != null && serialPort.IsOpen)
-            {
-                try
-                {
-                    // 전압 값 읽기
-                    serialPort.WriteLine("MEAS:VOLT?");
-                    voltageValue = LimitValueRange(ParseScientificNotation(serialPort.ReadLine()), -10000, 10000);
-
-                    // 전류 값 읽기
-                    serialPort.WriteLine("MEAS:CURR?");
-                    currentValue = LimitValueRange(ParseScientificNotation(serialPort.ReadLine()), -10000, 10000);
-
-                    BeginInvoke(new Action(() =>
-                    {
-                        lblVoltage.Text = voltageValue.ToString() + " V";
-                        lblCurrent.Text = currentValue.ToString() + " A";
-
-                        // 그래프 업데이트
-                        waveformPlot_V.PlotYAppend(voltageValue, elapsedTime2);
-                        waveformPlot_A.PlotYAppend(currentValue, elapsedTime2);
-                    }));
-                }
-                catch (TimeoutException ex)
-                {
-                    MessageBox.Show("시리얼 포트 데이터 수신 시간이 초과되었습니다: " + ex.Message, "오류");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("데이터 수신 실패: " + ex.Message, "오류");
-                }
-            }
-            else
-            {
-                eLoadDataTimer.Stop();
-                MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
-            }
-        }*/
 
         // 과학적 표기법으로 표현된 값을 처리하는 메서드 (음수 값도 포함하여 처리)
         private double ParseScientificNotation(string value)
@@ -302,7 +224,6 @@ namespace PS_ELOAD_Serial
             // 값이 최소값보다 작으면 최소값 반환, 최대값보다 크면 최대값 반환
             return Math.Max(min, Math.Min(value, max));
         }
-
 
         private void InitializeReaderWriter()
         {
@@ -348,7 +269,7 @@ namespace PS_ELOAD_Serial
             else
             {
                 // 스위치가 꺼질 때 연결 해제
-                eLoadDataTimer.Stop(); // 타이머 중지
+                eLoadDataTimer.Stop();
                 DisconnectPort();
             }
         }
@@ -455,57 +376,6 @@ namespace PS_ELOAD_Serial
             }*/
         }
 
-        /*private void InitializeGraph()
-        {
-            // Voltage와 Current 플롯 설정
-            voltagePlot = new WaveformPlot { LineColor = System.Drawing.Color.Red };
-            currentPlot = new WaveformPlot { LineColor = System.Drawing.Color.Green };
-            voltagePlot2 = new WaveformPlot { LineColor = System.Drawing.Color.Red };
-            currentPlot2 = new WaveformPlot { LineColor = System.Drawing.Color.Green };
-
-            //EL
-            waveformGraph1.Plots.Add(voltagePlot);
-            waveformGraph1.Plots.Add(currentPlot);
-            //PS
-            waveformGraph2.Plots.Add(voltagePlot2);
-            waveformGraph2.Plots.Add(currentPlot2);
-
-            // EL Y축 설정
-            if (waveformGraph1.YAxes.Count < 2)
-            {
-                waveformGraph1.YAxes.Add(new YAxis()); // 두 번째 Y축을 추가
-            }
-
-            // PS Y축 설정
-            if (waveformGraph2.YAxes.Count < 2)
-            {
-                waveformGraph2.YAxes.Add(new YAxis()); // 두 번째 Y축을 추가
-            }
-
-            // 각 플롯이 사용할 Y축을 설정
-            voltagePlot.YAxis = waveformGraph1.YAxes[0]; // 첫 번째 Y축은 전압
-            currentPlot.YAxis = waveformGraph1.YAxes[1]; // 두 번째 Y축은 전류
-
-            voltagePlot2.YAxis = waveformGraph2.YAxes[0]; // 첫 번째 Y축은 전압
-            currentPlot2.YAxis = waveformGraph2.YAxes[1]; // 두 번째 Y축은 전류
-
-            // Y축 레이블 설정
-            waveformGraph1.YAxes[0].Caption = "Voltage (V)";
-            waveformGraph1.YAxes[0].CaptionForeColor = voltagePlot.LineColor; // 전압 플롯 색상과 동일하게 설정
-            waveformGraph1.YAxes[1].Caption = "Current (A)";
-            waveformGraph1.YAxes[1].CaptionForeColor = currentPlot.LineColor; // 전류 플롯 색상과 동일하게 설정
-
-            waveformGraph2.YAxes[0].Caption = "Voltage (V)";
-            waveformGraph2.YAxes[0].CaptionForeColor = voltagePlot2.LineColor; // 전압 플롯 색상과 동일하게 설정
-            waveformGraph2.YAxes[1].Caption = "Current (A)";
-            waveformGraph2.YAxes[1].CaptionForeColor = currentPlot2.LineColor; // 전류 플롯 색상과 동일하게 설정
-
-            // X축 레이블 설정
-            waveformGraph1.XAxes[0].Caption = "Time (0.1s)";
-
-            waveformGraph2.XAxes[0].Caption = "Time (0.1s)";
-        }*/
-
         private void LoadButton_Click(object sender, EventArgs e)
         {
             // Switch1(Switch가 켜져 있는지 확인)
@@ -589,139 +459,6 @@ namespace PS_ELOAD_Serial
                 }
             }
         }
-
-        /*private void OutPutButton_Click(object sender, EventArgs e)
-        {
-            lock (_commandLock)
-            {
-                if (psConnected && switch2.Value)
-                {
-                    // 현재 Power Supply의 출력 상태 확인
-                    string response = SendCommandAndReadResponse("OUTP?");
-                    bool isOutputOn = (response.Trim() == "1");
-
-                    if (isOutputOn)
-                    {
-                        // 출력 끄기 명령 전송
-                        SendCommandToPS("OUTP 0\r");
-                        PS_LED.Value = false;
-                    }
-                    else
-                    {
-                        // 출력 켜기 명령 전송
-                        SendCommandToPS("OUTP 1\r");
-                        PS_LED.Value = true;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
-                }
-            }
-        }*/
-
-        // 타이머 이벤트 핸들러 (주기적으로 전압 및 전류 값을 그래프에 업데이트)
-        /*private void PsDataTimer_Tick(object sender, EventArgs e)
-        {
-            if (isGraphUpdating2)
-            {
-                UpdateGraphWithData(); // 그래프 데이터 업데이트 메서드 호출
-            }
-            if (psConnected) // Power Supply가 연결된 상태에서만 동작
-            {
-                try
-                {
-                    // 전압 값 읽기
-                    string psVoltage = ReadResponseFromPS("MEAS:VOLT?");
-                    double voltageValue;
-                    if (double.TryParse(psVoltage, out voltageValue))
-                    {
-                        lblPV.Text = string.Format("{0} V", voltageValue); // 전압 라벨 업데이트
-                        waveformPlot_V2.PlotYAppend(voltageValue); // Power Supply 전압 그래프 업데이트
-                    }
-
-                    // 전류 값 읽기
-                    string psCurrent = ReadResponseFromPS("MEAS:CURR?");
-                    double currentValue;
-                    if (double.TryParse(psCurrent, out currentValue))
-                    {
-                        lblPC.Text = string.Format("{0} A", currentValue); // 전류 라벨 업데이트
-                        waveformPlot_A2.PlotYAppend(currentValue); // Power Supply 전류 그래프 업데이트
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Power Supply 데이터 읽기 실패: " + ex.Message, "오류");
-                }
-            }
-        }*/
-
-        /*
-        private void PsDataTimer_Tick(object sender, EventArgs e)
-        {
-            DateTime currentTime = DateTime.Now;
-            TimeSpan deltaTime = currentTime - lastPsUpdateTime;
-            lastPsUpdateTime = currentTime;
-            elapsedTime += deltaTime.TotalSeconds;
-            //System.Diagnostics.Debug.WriteLine(string.Format("시작{0}"), DateTime.Now);
-            if (psConnected)
-            {
-                try
-                {
-                    // 전압 값 읽기
-                    string psVoltage = ReadResponseFromPS("MEAS:VOLT?");
-                    double voltageValue;
-                    if (double.TryParse(psVoltage, out voltageValue))
-                    {
-                        lblPV.Text = string.Format("{0} V", voltageValue);
-                        waveformPlot_V2.PlotYAppend(voltageValue);
-                    }
-
-                    // 전류 값 읽기
-                    string psCurrent = ReadResponseFromPS("MEAS:CURR?");
-                    
-                    double currentValue;
-                    if (double.TryParse(psCurrent, out currentValue))
-                    {
-                        lblPC.Text = string.Format("{0} A", currentValue);
-                        waveformPlot_A2.PlotYAppend(currentValue);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Power Supply 데이터 읽기 실패: " + ex.Message, "오류");
-                }
-            }
-            //System.Diagnostics.Debug.WriteLine(string.Format("끝{0}"), DateTime.Now);
-        }*/
-
-        // 전압 및 전류 값 읽어서 그래프 업데이트
-        /*private void UpdateGraphWithData()
-        {
-            // 하드웨어에서 전압 및 전류 값 읽기
-            string psVoltage = ReadResponseFromPS("MEAS:VOLT?");
-            string psCurrent = ReadResponseFromPS("MEAS:CURR?");
-
-            // 문자열을 double 타입으로 변환하여 값 할당
-            double voltageValue;
-            double currentValue;
-
-            // 전압 및 전류 값 변환 시도
-            double.TryParse(psVoltage, out voltageValue);
-            double.TryParse(psCurrent, out currentValue);
-
-            // X축 시간 값 증가
-            elapsedTime += psDataTimer.Interval / 1000.0;
-            elapsedTime2 += eLoadDataTimer.Interval / 1000.0;
-            // 라벨에 값 업데이트
-            lblPV.Text = String.Format("{0:F2} V", voltageValue);
-            lblPC.Text = String.Format("{0:F2} A", currentValue);
-
-            // 그래프에 값 추가
-            waveformPlot_V.PlotYAppend(voltageValue, elapsedTime); // Power Supply 전압 값 추가
-            waveformPlot_A.PlotYAppend(currentValue,elapsedTime); // Power Supply 전류 값 추가
-        }*/
-
 
         // ELoad COM 포트에 연결하는 메서드 추가
         private void ConnectToSelectedPort()
@@ -1325,6 +1062,7 @@ namespace PS_ELOAD_Serial
                 sequenceSteps = GetSequenceStepsFromDatabase(SelectedProgramID); // 해당 ProgramID에 맞는 시퀀스 단계만 가져옴
                 if (sequenceSteps.Count > 0)
                 {
+                    MessageBox.Show(string.Format("루프가 '{0}'로 설정되었습니다.", loopCount));
                     await StartSequenceAsync(); // 시퀀스 실행
                 }
                 else
@@ -1342,6 +1080,15 @@ namespace PS_ELOAD_Serial
         public void SetSelectedProgramID(int programID)
         {
             SelectedProgramID = programID;
+        }
+
+        private void textBoxLoop2_TextChanged(object sender, EventArgs e)
+        {
+            if (!int.TryParse(textBoxLoop2.Text, out loopCount))
+            {
+                MessageBox.Show("유효하지 않은 루프 값입니다.");
+                loopCount = 1; // 기본값 설정 (필요에 따라 조정)
+            }
         }
     }
 }
