@@ -86,7 +86,7 @@
             this.lblPC = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.PSELOADCURRENT = new System.Windows.Forms.Button();
-            this.waveformGraph1 = new NationalInstruments.UI.WindowsForms.WaveformGraph();
+            this.Sequence2 = new NationalInstruments.UI.WindowsForms.WaveformGraph();
             this.waveformPlot_V = new NationalInstruments.UI.WaveformPlot();
             this.xAxis1 = new NationalInstruments.UI.XAxis();
             this.yAxis1 = new NationalInstruments.UI.YAxis();
@@ -106,6 +106,8 @@
             this.comboBox_DMM = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.SequenceRun2 = new System.Windows.Forms.Button();
+            this.ModeButton2 = new System.Windows.Forms.Button();
             this.ELoad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.E_LED)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
@@ -119,7 +121,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.switch2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph2)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Sequence2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.legend1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.legend2)).BeginInit();
             this.DMM.SuspendLayout();
@@ -728,7 +730,7 @@
             // PSELOADCURRENT
             // 
             this.PSELOADCURRENT.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.PSELOADCURRENT.Location = new System.Drawing.Point(514, 456);
+            this.PSELOADCURRENT.Location = new System.Drawing.Point(534, 495);
             this.PSELOADCURRENT.Margin = new System.Windows.Forms.Padding(0);
             this.PSELOADCURRENT.Name = "PSELOADCURRENT";
             this.PSELOADCURRENT.Size = new System.Drawing.Size(203, 60);
@@ -737,19 +739,19 @@
             this.PSELOADCURRENT.UseVisualStyleBackColor = true;
             this.PSELOADCURRENT.Click += new System.EventHandler(this.PSELOADCURRENT_Click);
             // 
-            // waveformGraph1
+            // Sequence2
             // 
-            this.waveformGraph1.Location = new System.Drawing.Point(278, 45);
-            this.waveformGraph1.Name = "waveformGraph1";
-            this.waveformGraph1.Plots.AddRange(new NationalInstruments.UI.WaveformPlot[] {
+            this.Sequence2.Location = new System.Drawing.Point(278, 45);
+            this.Sequence2.Name = "Sequence2";
+            this.Sequence2.Plots.AddRange(new NationalInstruments.UI.WaveformPlot[] {
             this.waveformPlot_V,
             this.waveformPlot_V2});
-            this.waveformGraph1.Size = new System.Drawing.Size(649, 272);
-            this.waveformGraph1.TabIndex = 42;
-            this.waveformGraph1.UseColorGenerator = true;
-            this.waveformGraph1.XAxes.AddRange(new NationalInstruments.UI.XAxis[] {
+            this.Sequence2.Size = new System.Drawing.Size(649, 272);
+            this.Sequence2.TabIndex = 42;
+            this.Sequence2.UseColorGenerator = true;
+            this.Sequence2.XAxes.AddRange(new NationalInstruments.UI.XAxis[] {
             this.xAxis1});
-            this.waveformGraph1.YAxes.AddRange(new NationalInstruments.UI.YAxis[] {
+            this.Sequence2.YAxes.AddRange(new NationalInstruments.UI.YAxis[] {
             this.yAxis1});
             // 
             // waveformPlot_V
@@ -893,17 +895,41 @@
             this.label10.TabIndex = 48;
             this.label10.Text = "Log List";
             // 
+            // SequenceRun2
+            // 
+            this.SequenceRun2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.SequenceRun2.Location = new System.Drawing.Point(638, 431);
+            this.SequenceRun2.Name = "SequenceRun2";
+            this.SequenceRun2.Size = new System.Drawing.Size(99, 39);
+            this.SequenceRun2.TabIndex = 48;
+            this.SequenceRun2.Text = "Sequence2 Run/Stop";
+            this.SequenceRun2.UseVisualStyleBackColor = true;
+            this.SequenceRun2.Click += new System.EventHandler(this.SequenceRun2_Click);
+            // 
+            // ModeButton2
+            // 
+            this.ModeButton2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ModeButton2.Location = new System.Drawing.Point(531, 431);
+            this.ModeButton2.Name = "ModeButton2";
+            this.ModeButton2.Size = new System.Drawing.Size(99, 39);
+            this.ModeButton2.TabIndex = 47;
+            this.ModeButton2.Text = "Sequence2 Mode";
+            this.ModeButton2.UseVisualStyleBackColor = true;
+            this.ModeButton2.Click += new System.EventHandler(this.ModeButton2_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.Controls.Add(this.SequenceRun2);
             this.Controls.Add(this.label10);
+            this.Controls.Add(this.ModeButton2);
             this.Controls.Add(this.DMM);
             this.Controls.Add(this.legend2);
             this.Controls.Add(this.legend1);
             this.Controls.Add(this.Log_List);
-            this.Controls.Add(this.waveformGraph1);
+            this.Controls.Add(this.Sequence2);
             this.Controls.Add(this.PSELOADCURRENT);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.waveformGraph2);
@@ -930,7 +956,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph2)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Sequence2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.legend1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.legend2)).EndInit();
             this.DMM.ResumeLayout(false);
@@ -986,7 +1012,7 @@
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button SequenceRun;
         private System.Windows.Forms.Button PSELOADCURRENT;
-        private NationalInstruments.UI.WindowsForms.WaveformGraph waveformGraph1;
+        private NationalInstruments.UI.WindowsForms.WaveformGraph Sequence2;
         private NationalInstruments.UI.WaveformPlot waveformPlot_V;
         private NationalInstruments.UI.XAxis xAxis1;
         private NationalInstruments.UI.YAxis yAxis1;
@@ -1021,6 +1047,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button SequenceRun2;
+        private System.Windows.Forms.Button ModeButton2;
     }
 }
 

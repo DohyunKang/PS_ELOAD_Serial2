@@ -18,11 +18,16 @@ namespace PS_ELOAD_Serial
         private DataTable programTable;
         private string selectedProgramName = null; // 선택된 프로그램 이름 저장 변수
         private SerialPort serialPort; // SerialPort 객체
+        private int programID; // 클래스 멤버 변수로 설정
+        private Main mainForm; // Main 폼을 참조할 필드
 
-        public Sequence2(SerialPort serialPort)
+        public int selectedProgramID { get; private set; } // 선택된 ProgramID를 저장할 속성 추가
+
+        public Sequence2(Main main, SerialPort serialPort)
         {
             InitializeComponent();
             this.serialPort = serialPort;
+            mainForm = main; // Main 폼을 저장
 
             // Delegate를 사용하여 CreateButton 클릭 이벤트 핸들러 연결
             this.CreateButton2.Click += new EventHandler(this.ButtonCreate_Click);
@@ -31,6 +36,15 @@ namespace PS_ELOAD_Serial
             this.SelectButton2.Click += new EventHandler(this.ButtonSelect_Click);
             LoadProgramList();
         }
+
+        /*public Sequence2(Main main)
+        {
+            InitializeComponent();
+            mainForm = main; // Main 폼을 저장
+
+            // Select 버튼 클릭 이벤트 핸들러 등록
+            this.SelectButton2.Click += new EventHandler(this.ButtonSelect_Click);
+        }*/
 
         private void LoadProgramList()
         {
@@ -78,7 +92,7 @@ namespace PS_ELOAD_Serial
         private void ButtonCreate_Click(object sender, EventArgs e)
         {
             // ProgramForm 폼을 생성하고 표시하여 프로그램 이름을 입력받음
-            ProgramForm programForm = new ProgramForm(serialPort);
+            ProgramForm2 programForm = new ProgramForm2(serialPort);
             if (programForm.ShowDialog() == DialogResult.OK)
             {
                 // 사용자가 입력한 프로그램 이름을 데이터베이스에 추가
@@ -182,7 +196,7 @@ namespace PS_ELOAD_Serial
                 try
                 {
                     // ProgramID를 Program List 테이블에서 가져오기
-                    int programID = -1; // 초기값으로 -1 설정 (유효하지 않은 값)
+                    programID = -1; // 초기값으로 -1 설정 (유효하지 않은 값)
 
                     using (SqlCeConnection connection = new SqlCeConnection("Data Source=C:\\Users\\kangdohyun\\Desktop\\세미나\\4주차\\PS_ELOAD_Serial\\MyDatabase#1.sdf; Password = a1234!;"))
                     {
@@ -210,14 +224,15 @@ namespace PS_ELOAD_Serial
                             //string command = string.Format("PROG \"/{0}\"", selectedProgramName); // 명령어 생성
                             //serialPort.WriteLine(command); // 명령어 전송
                             MessageBox.Show(string.Format("프로그램 '{0}'이(가) Eload에서 선택되었습니다.", selectedProgramName), "프로그램 선택");
+                            MessageBox.Show("SettingsForm2에서 받은 ProgramID: " + programID);
                         }
                         else
                         {
                             MessageBox.Show("시리얼 포트가 열려 있지 않습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
 
-                        SettingsForm settingsForm = new SettingsForm(programID, serialPort); // ProgramID를 생성자에 전달
-                        settingsForm.ShowDialog(); // 모달 창으로 띄움 (완료 후 반환)
+                        SettingsForm2 settingsForm2 = new SettingsForm2(programID, serialPort); // ProgramID를 생성자에 전달
+                        settingsForm2.ShowDialog(); // 모달 창으로 띄움 (완료 후 반환)
                     }
                     else
                     {
@@ -241,11 +256,14 @@ namespace PS_ELOAD_Serial
             if (dataGridView2.SelectedRows.Count > 0)
             {
                 // 선택된 행의 ProgramID 값을 가져옴
-                int selectedProgramID = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["ProgramID2"].Value);
+                selectedProgramID = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["ProgramID2"].Value);
+
+                // Main 폼의 메서드를 통해 ProgramID 전달
+                mainForm.SetSelectedProgramID(selectedProgramID);
 
                 // Option_list 폼을 ProgramID와 함께 생성 및 표시
-                Option_list optionListForm = new Option_list(selectedProgramID, serialPort);
-                optionListForm.ShowDialog(); // 모달로 폼 표시 (원하는 경우 Show() 사용 가능)
+                Option_list2 optionListForm2 = new Option_list2(selectedProgramID, serialPort);
+                optionListForm2.ShowDialog(); // 모달로 폼 표시 (원하는 경우 Show() 사용 가능)
             }
             else
             {
@@ -270,65 +288,6 @@ namespace PS_ELOAD_Serial
                     {
                         string loopValue = loopForm.LoopValue; // 사용자 입력값 가져오기
 
-                        try
-                        {
-                            using (SqlCeConnection connection = new SqlCeConnection("Data Source=" + _dbFilePath + ";Password= a1234!;"))
-                            {
-                                connection.Open();
-
-                                // Loop 값이 이미 있는지 확인하고 업데이트 또는 추가
-                                string query = "SELECT COUNT(*) FROM [Program List2] WHERE [Program Name2] = @ProgramName AND [Loop2] IS NOT NULL";
-                                using (SqlCeCommand command = new SqlCeCommand(query, connection))
-                                {
-                                    command.Parameters.AddWithValue("@ProgramName", selectedProgramName);
-                                    int count = (int)command.ExecuteScalar();
-
-                                    if (count > 0)
-                                    {
-                                        // 이미 값이 있으면 업데이트
-                                        string updateQuery = "UPDATE [Program List2] SET [Loop2] = @LoopValue WHERE [Program Name2] = @ProgramName";
-                                        using (SqlCeCommand updateCommand = new SqlCeCommand(updateQuery, connection))
-                                        {
-                                            updateCommand.Parameters.AddWithValue("@LoopValue", loopValue);
-                                            updateCommand.Parameters.AddWithValue("@ProgramID", selectedProgramID);
-                                            updateCommand.ExecuteNonQuery();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // 값이 없으면 새로 추가
-                                        string insertQuery = "INSERT INTO [Program List2] ([Program Name2], [Loop2]) VALUES (@ProgramName, @LoopValue)";
-                                        using (SqlCeCommand insertCommand = new SqlCeCommand(insertQuery, connection))
-                                        {
-                                            insertCommand.Parameters.AddWithValue("@ProgramName", selectedProgramName);
-                                            insertCommand.Parameters.AddWithValue("@LoopValue", loopValue);
-                                            insertCommand.ExecuteNonQuery();
-                                        }
-                                    }
-
-                                    MessageBox.Show("프로그램의 Loop 값이 성공적으로 설정되었습니다.");
-                                }
-                            }
-
-                            // SerialPort로 ELoad에 명령어 전송
-                            if (serialPort != null && serialPort.IsOpen)
-                            {
-                                //string command = string.Format("PROG:STEP:LOOP {0}", loopValue);
-                                //serialPort.WriteLine(command);
-                                MessageBox.Show(string.Format("ELoad에 Loop 값 '{0}'이 설정되었습니다.", loopValue));
-                            }
-                            else
-                            {
-                                MessageBox.Show("시리얼 포트가 열려 있지 않습니다.", "포트 오류");
-                            }
-
-                            // 프로그램 목록을 새로고침하여 업데이트된 Loop 값 반영
-                            LoadProgramList();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Loop 설정 중 오류가 발생했습니다: " + ex.Message, "오류");
-                        }
                     }
                 }
             }

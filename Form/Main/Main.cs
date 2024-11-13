@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using NationalInstruments.UI;
 using NationalInstruments.UI.WindowsForms;
 using Action = System.Action; // System.Action으로 명시
+using System.Data.SqlServerCe;
+using System.Collections.Generic;
 
 namespace PS_ELOAD_Serial
 {
@@ -40,8 +42,15 @@ namespace PS_ELOAD_Serial
         private DateTime lastPsUpdateTime = DateTime.Now;
         private DateTime lastEloadUpdateTime = DateTime.Now;
 
+        private string currentMode; // 현재 모드 상태 저장 (CC, CV, CR 중 하나)
+
         // Sequence 창을 열기 위한 Delegate 정의
         public Action OpenSequenceDelegate;
+
+        // Sequence2 창을 열기 위한 Delegate 정의
+        public Action OpenSequenceDelegate2;
+
+        public int SelectedProgramID { get; private set; } // 선택된 ProgramID를 저장할 프로퍼티
 
         public Main()
         {
@@ -217,7 +226,7 @@ namespace PS_ELOAD_Serial
                 eLoadDataTimer.Stop();
                 //MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
             }
-            
+
             // psEloadCurrentForm의 CurrentAverage 값을 lblCurrent_AI_Avg와 그래프에 표시
             ReadMultiSampleData();
             lblCurrent_AI_Avg.Text = AiCurrentAvg.ToString("F2") + " A";
@@ -737,7 +746,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-               // MessageBox.Show("COM 포트를 선택하세요.", "연결 상태");
+                // MessageBox.Show("COM 포트를 선택하세요.", "연결 상태");
             }
         }
 
@@ -777,7 +786,7 @@ namespace PS_ELOAD_Serial
                     {
                         command = "FUNC CC"; // CC 모드 설정 명령어
                         command2 = "FUNC:CVOP OFF"; // +CV 모드 OFF
-
+                        currentMode = "CC"; // CC 모드 설정
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
@@ -834,7 +843,7 @@ namespace PS_ELOAD_Serial
                     else if (selectedButton == CVButton)
                     {
                         command = "FUNC CV"; // CV 모드 설정 명령어
-
+                        currentMode = "CV"; // CV 모드 설정
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
@@ -884,7 +893,7 @@ namespace PS_ELOAD_Serial
                     {
                         command = "FUNC CR"; // CR 모드 설정 명령어
                         command2 = "FUNC:CVOP OFF"; // +CV 모드 OFF
-
+                        currentMode = "CR"; // CR 모드 설정
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
@@ -1244,7 +1253,7 @@ namespace PS_ELOAD_Serial
                     if (isCurrentOn) // 현재 버튼이 눌린 상태
                     {
                         dmmReadTimer.Stop(); // 타이머 중지
- 
+
                         psDataTimer.Stop(); // 타이머 중지
 
                         CurrentButton.Text = "Current Load";
@@ -1256,7 +1265,7 @@ namespace PS_ELOAD_Serial
                         lastPsUpdateTime = DateTime.Now; // 타이머 재시작 시점을 현재 시간으로 설정
                         psDataTimer.Start(); // 타이머 시작
 
-                        CurrentButton.Text = "Off"; 
+                        CurrentButton.Text = "Off";
                     }
                 }
                 catch (Exception ex)
@@ -1270,8 +1279,8 @@ namespace PS_ELOAD_Serial
         {
             try
             {
-                waveformGraph1.Plots[0].ClearData(); // waveformGraph1의 첫 번째 플롯 초기화
-                waveformGraph1.Plots[1].ClearData(); // waveformGraph1의 두 번째 플롯 초기화 
+                Sequence2.Plots[0].ClearData(); // waveformGraph1의 첫 번째 플롯 초기화
+                Sequence2.Plots[1].ClearData(); // waveformGraph1의 두 번째 플롯 초기화 
             }
             catch (Exception ex)
             {
@@ -1292,6 +1301,47 @@ namespace PS_ELOAD_Serial
             {
                 MessageBox.Show("waveformGraph2 초기화 중 오류가 발생했습니다: " + ex.Message, "오류");
             }
+        }
+
+        private void ModeButton2_Click(object sender, EventArgs e)
+        {
+            // Delegate가 null이 아니면 호출하여 Sequence2 창을 엶
+            OpenSequenceDelegate2.Invoke();
+        }
+
+        // Sequence2 창을 여는 메서드 (Delegate에 연결)
+        private void OpenSequenceWindow2()
+        {
+            // Sequence2 창을 SerialPort와 함께 열기
+            Sequence2 sequenceWindow = new Sequence2(this, serialPort);
+            // Sequence2 폼을 열 때 Main 인스턴스를 전달
+            sequenceWindow.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
+        }
+
+        private async void SequenceRun2_Click(object sender, EventArgs e)
+        {
+            if (SelectedProgramID != -1)
+            {
+                sequenceSteps = GetSequenceStepsFromDatabase(SelectedProgramID); // 해당 ProgramID에 맞는 시퀀스 단계만 가져옴
+                if (sequenceSteps.Count > 0)
+                {
+                    await StartSequenceAsync(); // 시퀀스 실행
+                }
+                else
+                {
+                    MessageBox.Show("선택한 프로그램에 대한 시퀀스 단계가 없습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("선택된 프로그램이 없습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Sequence2에서 ProgramID를 받을 이벤트 핸들러
+        public void SetSelectedProgramID(int programID)
+        {
+            SelectedProgramID = programID;
         }
     }
 }

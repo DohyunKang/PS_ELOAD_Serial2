@@ -52,6 +52,7 @@ namespace PS_ELOAD_Serial
 
             // Delegate를 해당 메서드에 연결
             OpenSequenceDelegate = OpenSequenceWindow;
+            OpenSequenceDelegate2 = OpenSequenceWindow2;
 
             ModeButton.Click += ModeButton_Click; // ModeButton의 Click 이벤트 핸들러 설정
         }

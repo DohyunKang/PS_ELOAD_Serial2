@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.IO.Ports;
+using System.Diagnostics;
 
 namespace PS_ELOAD_Serial
 {
@@ -20,14 +21,14 @@ namespace PS_ELOAD_Serial
         private SerialPort serialPort; // 시리얼 포트를 받기 위한 필드
 
         // 프로그램 ID를 참조하는 변수
-        public int ProgramID { get; set; } // 외부에서 프로그램 ID를 설정할 수 있도록 public으로 설정
+        public int ProgramID2 { get; set; } // 외부에서 프로그램 ID를 설정할 수 있도록 public으로 설정
 
         public SettingsForm2(int programID, SerialPort serialPort)
         {
             InitializeComponent();
-            ProgramID = programID; // 생성자에서 ProgramID를 설정
+            ProgramID2 = programID; // 생성자에서 ProgramID를 설정
             this.serialPort = serialPort; // Form1에서 전달받은 시리얼 포트를 저장
-
+            
             this.buttonOk2.Click += new EventHandler(this.ButtonOk_Click);
             this.buttonCancel2.Click += new EventHandler(this.ButtonCancel_Click);
         }
@@ -50,14 +51,14 @@ namespace PS_ELOAD_Serial
                     int wait = int.Parse(textBoxWait2.Text);
                     string generate = textBoxGenerate2.Text; // generate도 문자열로 처리
                     int step = int.Parse(textBoxStepNum2.Text);
-                    
+
                     // ProgramSettings 테이블에 데이터 추가
-                    string insertQuery = "INSERT INTO ProgramSettings (ProgramID2, Level2, SR_A_us2, Dwell_s2, Load_immediate_ramp2, Wait_pre2, Generate2, StepNum2, LoadOnOff2) " +
-                                         "VALUES (@ProgramID, @Level, @SR, @Dwell, @Load, @Wait, @Generate, @Step, @LoadOnOff)";
+                    string insertQuery = "INSERT INTO ProgramSettings2 (ProgramID2, Level2, SR_A_us2, Dwell_s2, Load_immediate_ramp2, Wait_pre2, Generate2, StepNum2, LoadOnOff2) " +
+                                         "VALUES (@ProgramID2, @Level, @SR, @Dwell, @Load, @Wait, @Generate, @Step, @LoadOnOff)";
 
                     using (SqlCeCommand command = new SqlCeCommand(insertQuery, connection))
                     {
-                        command.Parameters.AddWithValue("@ProgramID", ProgramID);
+                        command.Parameters.AddWithValue("@ProgramID2", ProgramID2);
                         command.Parameters.AddWithValue("@Level", level);
                         command.Parameters.AddWithValue("@SR", sr);
                         command.Parameters.AddWithValue("@Dwell", dwell);
@@ -71,30 +72,12 @@ namespace PS_ELOAD_Serial
                         command.ExecuteNonQuery();
                     }
 
-                    // 시리얼 포트를 통해 Eload에 명령어 전송
-                    if (serialPort != null && serialPort.IsOpen)
-                    {
-                        /*serialPort.WriteLine(string.Format("PROG:STEPS:COUN {0}", step));
-                        serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() +  ":LEV {0}", level));
-                        serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() + ":SLEW {0}", sr));
-                        serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() + ":DWEL {0}", dwell));
-                        serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() + ":INP {0}", OnOff));
-                        serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() + ":TRAN {0}", load));*/
-                        //serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() + ":TRIG:WAIT {0}", wait));
-                        //serialPort.WriteLine(string.Format("PROG:STEP" + step.ToString() + ":TRIG:GEN {0}", generate));
-
-                        MessageBox.Show("설정이 성공적으로 저장되고 명령어가 전송되었습니다.", "성공");
-                    }
-                    else
-                    {
-                        MessageBox.Show("시리얼 포트가 열려 있지 않습니다.");
-                    }
-
                     MessageBox.Show("프로그램 설정이 성공적으로 저장되었습니다.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
+                //MessageBox.Show("SettingsForm2에서 받은 ProgramID: " + ProgramID);
                 MessageBox.Show("프로그램 설정 에러: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

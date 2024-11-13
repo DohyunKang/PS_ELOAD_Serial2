@@ -144,7 +144,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("이미 데이터 수집이 진행 중입니다.");
+                //MessageBox.Show("이미 데이터 수집이 진행 중입니다.");
             }
         }
 
@@ -157,7 +157,7 @@ namespace PS_ELOAD_Serial
             }
             else
             {
-                MessageBox.Show("현재 데이터 수집이 중지된 상태입니다.");
+                //MessageBox.Show("현재 데이터 수집이 중지된 상태입니다.");
             }
         }
     }

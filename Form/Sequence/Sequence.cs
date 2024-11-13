@@ -342,7 +342,19 @@ namespace PS_ELOAD_Serial
                     {
                         string loopValue = loopForm.LoopValue; // 사용자 입력값 가져오기
 
-                        try
+                        // SerialPort로 ELoad에 명령어 전송
+                        if (serialPort != null && serialPort.IsOpen)
+                        {
+                            string command = string.Format("PROG:STEP:LOOP {0}", loopValue);
+                            serialPort.WriteLine(command);
+                            MessageBox.Show(string.Format("ELoad에 Loop 값 '{0}'이 설정되었습니다.", loopValue));
+                        }
+                        else
+                        {
+                            MessageBox.Show("시리얼 포트가 열려 있지 않습니다.", "포트 오류");
+                        }
+
+                        /*try
                         {
                             using (SqlCeConnection connection = new SqlCeConnection("Data Source=" + _dbFilePath + ";Password= a1234!;"))
                             {
@@ -400,7 +412,7 @@ namespace PS_ELOAD_Serial
                         catch (Exception ex)
                         {
                             MessageBox.Show("Loop 설정 중 오류가 발생했습니다: " + ex.Message, "오류");
-                        }
+                        }*/
                     }
                 }
             }
