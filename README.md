@@ -53,6 +53,10 @@
 
 ## **UI 구성**  
 
+Main.cs
+
+<img width = 500 src = "https://github.com/user-attachments/assets/af8483b3-fb10-408e-98d6-dc994b81b476">
+
 1. **전압 및 전류 입력 필드**  
    - 초기 전압 및 전류를 설정할 수 있습니다.  
 
@@ -67,6 +71,13 @@
 4. **실시간 상태창**  
    - 현재 실행 중인 단계와 SCPI 명령어 송신 상태를 표시합니다.  
 
+Ps_load_Current.cs
+
+<img width = 500 src = "https://github.com/user-attachments/assets/5e56bfc0-56d6-45e6-af61-1601cf12d587">
+
+1. **PS ELoad 사이 전류 DAQ AI 값**
+   - PS와 ELoad 사이 전류값을 DAQ로 읽은 값입니다.
+   - 평균, 최대, 최솟값을 멀티샘플로 받아와서 처리합니다.
 ---
 
 ## **코드 예시**  
